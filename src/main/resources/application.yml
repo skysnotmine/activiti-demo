@@ -1,0 +1,46 @@
+server:
+  servlet:
+    context-path: /activiti
+  port: 8999
+
+spring:
+  datasource:
+#    url: jdbc:mysql://127.0.0.1:3306/activiti?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimeZone=UTC&allowPublicKeyRetrieval=true
+    url: jdbc:p6spy:mysql://127.0.0.1:3306/activiti?useUnicode=true&characterEncoding=utf-8&serverTimeZone=UTC&useSSL=false
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    username: root
+    password: yeahka@2020
+    type: com.zaxxer.hikari.HikariDataSource
+    # hikari连接池
+    hikari:
+      # 最小空闲连接数量,为了获得最佳性能和响应尖峰需求，我们建议不要设置此值，而是允许HikariCP充当固定大小的连接池。 默认值：与maximumPoolSize相同
+      minimum-idle: 10
+      # 连接池最大连接数,默认是10
+      maximum-pool-size: 10
+      # 测试连接查询语句
+      #        connection-test-query: SELECT 1
+      # 连接超时时间 默认30s,在没有可用连接的情况下超过此时间，则会抛出SQLException
+      connection-timeout: 10000
+      # 连接闲置时间, 默认为600000，即10分钟
+      # 如果idleTimeout+1秒>maxLifetime 且 maxLifetime>0，则会被重置为0（代表永远不会退出）；
+      # 如果idleTimeout!=0且小于10秒，则会被重置为10秒。只有当minimumIdle小于maximumPoolSize时，这个参数才生效，当空闲连接数超过minimumIdle，而且空闲时间超过idleTimeout，则会被移除
+      idle-timeout: 30000
+      # hikari连接池的maxLifetime用来标记connection在连接池中的存活时间，为0表示无限期。 如果不等于0且小于30秒则会被重置回30分钟。
+      # 缺省:30分钟,也就是1800000，建议设置比数据库超时时长少30秒
+      # 参考MySQL wait_timeout参数（show variables like '%timeout%';）查看
+      max-lifetime: 300000
+      connection-test-query: SELECT 1
+
+  devtools:
+    restart:
+      enabled: true
+  activiti:
+    database-schema-update: true
+    history-level: full
+    db-history-used: true
+  main:
+    allow-bean-definition-overriding: true
+debug: true
+mybatis:
+  configuration:
+    lazy-loading-enabled: false
